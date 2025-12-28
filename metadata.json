@@ -1,0 +1,5 @@
+{
+  "name": "FoodExpress SPA",
+  "description": "A comprehensive food ordering system with Customer, Staff, and Admin portals. Features real-time order simulation and thermal receipt printing.",
+  "requestFramePermissions": []
+}

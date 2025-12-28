@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FoodExpress</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+      }
+      
+      /* Hide scrollbar for horizontal scrolling areas */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Marquee Animation */
+      @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+      .animate-marquee {
+        animation: marquee 20s linear infinite;
+        white-space: nowrap;
+      }
+
+      /* Thermal Printer Styles (80mm) */
+      @media print {
+        @page {
+          margin: 0;
+          size: auto; 
+        }
+
+        /* 
+           CRITICAL FIX FOR REACT PRINTING:
+           We cannot use 'display: none' on #root because the Receipt component is inside #root.
+           If #root is display:none, the Receipt is removed from the render tree.
+           Instead, we use visibility: hidden on the body/root, and visibility: visible on the receipt.
+        */
+        
+        body {
+          visibility: hidden;
+          background-color: white;
+          margin: 0;
+          padding: 0;
+        }
+
+        /* Hide the root container visually but keep layout (though layout doesn't matter for fixed position receipt) */
+        #root {
+          visibility: hidden;
+        }
+
+        /* Target the specific receipt ID to show it */
+        #printable-receipt {
+          visibility: visible !important;
+          display: block !important;
+          position: fixed; /* Fixed to top left of page */
+          top: 0;
+          left: 0;
+          width: 80mm; /* Force 80mm width standard */
+          margin: 0;
+          padding: 0;
+          background-color: white;
+          z-index: 99999; /* Ensure it's on top */
+        }
+        
+        /* Ensure all children of receipt are visible */
+        #printable-receipt * {
+          visibility: visible !important;
+        }
+
+        /* Helper to hide elements specifically in print mode if needed */
+        .no-print {
+          display: none !important;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
